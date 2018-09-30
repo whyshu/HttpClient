@@ -66,6 +66,7 @@ public class HttpClientMethods {
 		try {
 			Map<String, String> responseMap = new HashMap<>();
 			URL url_Object = new URL(url);
+			data+="}";
 			Socket socket_ = new Socket(InetAddress.getByName(url_Object.getHost()), port);
 			PrintWriter Writer = new PrintWriter(socket_.getOutputStream());
 			Writer.println("POST /" + url_Object.getFile() + " HTTP/1.0");
@@ -73,7 +74,6 @@ public class HttpClientMethods {
 			Writer.println("Content-Length: " + data.length());
 			if (!headers.isEmpty())
 				headers.stream().forEach(x -> Writer.println(x));
-			System.out.println(data);
 			JSONObject jsonObj = new JSONObject(data);
 			Writer.println();
 			Writer.println(jsonObj);
