@@ -7,6 +7,7 @@
 <JVMSearchPath>exepath</JVMSearchPath>
 <JVMSearchPath>jview</JVMSearchPath>
 <arguments></arguments>
+<classPath>json-20180813.jar</classPath>
 <embeddedJar>false</embeddedJar>
 <executableName>httpc.exe</executableName>
 <initialMemoryHeap>-1</initialMemoryHeap>
