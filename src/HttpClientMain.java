@@ -1,6 +1,7 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 
-public class httpc {
+public class HttpClientMain {
 	private static void chooseHelpDetails(String helpMethod) {
 		switch (helpMethod) {
 		case "default":
@@ -31,7 +32,6 @@ public class httpc {
 
 	public static void main(String[] args) {
 		Options options = new Options(args);
-
 	}
 
 	/**
@@ -43,6 +43,7 @@ public class httpc {
 		private String helpline = "default";
 		private GetOptions getOptions = null;
 		private PostOptions postOptions = null;
+		HttpClientMethods httpClientMethods = new HttpClientMethods();
 
 		public Options(String[] args) {
 			switch (args[0]) {
@@ -56,16 +57,17 @@ public class httpc {
 				}
 				break;
 			case "get":
-				System.out.println("Get");
 				String[] modifiedArgsGet = new String[args.length - 1];
 				System.arraycopy(args, 1, modifiedArgsGet, 0, modifiedArgsGet.length);
 				getOptions = new GetOptions(modifiedArgsGet);
+				httpClientMethods.getMethod(getOptions.URL, getOptions.isVerbose, getOptions.headers);
 				break;
 			case "post":
-				System.out.println("Post");
 				String[] modifiedArgsPost = new String[args.length - 1];
 				System.arraycopy(args, 1, modifiedArgsPost, 0, modifiedArgsPost.length);
 				postOptions = new PostOptions(modifiedArgsPost);
+				httpClientMethods.postMethod(postOptions.URL,postOptions.isVerbose, postOptions.headers, postOptions.data,
+						postOptions.inputFilePath);
 				break;
 
 			}
@@ -77,51 +79,41 @@ public class httpc {
 		private ArrayList<String> headers = new ArrayList<>();
 		private String URL;
 
+		private void addToHeaders(int i, String[] args) {
+			headers.add(args[i]);
+			System.out.println(i);
+			while (i + 1 < args.length && args[i + 1].equals("-h")) {
+				headers.add(args[i + 2]);
+				i++;
+			}
+		}
+
 		public GetOptions(String[] args) {
 			URL = args[args.length - 1];
-			System.out.println("URL :: " + URL);
+			//System.out.println("URL :: " + URL);
 			switch (args[0]) {
 			case "-v":
 				isVerbose = true;
-				switch (args[1]) {
-				case "-h": {
-					headers.add(args[2]);
-					switch (args[3]) {
-					case "-h": {
-						int i = 4;
-						headers.add(args[i]);
-						System.out.println(i);
-						while (i + 1 < args.length && args[i + 1].equals("-h")) {
-							headers.add(args[i + 2]);
-							i++;
+				if (args.length > 1) {
+					if (args[1].equals("-h")) {
+						headers.add(args[2]);
+					}
+					if (args.length > 3) {
+						// Check if there are more headers
+						if (args[3].equals("-h")) {
+							addToHeaders(4, args);
 						}
-						break;
 					}
-					}
-					System.out.println(headers);
-					break;
 				}
-				default: {
-					System.out.println("Verbose mode with URL");
-					break;
-				}
-				}
-				isVerbose = true;
 				break;
 			case "-h":
 				headers.add(args[1]);
-				switch (args[2]) {
-				case "-h": {
-					int i = 3;
-					headers.add(args[i]);
-					while (i + 1 < args.length && args[i + 1].equals("-h")) {
-						headers.add(args[i + 2]);
-						i++;
+				if (args.length > 2) {
+					// Check if there are more headers
+					if (args[2].equals("-h")) {
+						addToHeaders(3, args);
 					}
-					break;
 				}
-				}
-				System.out.println(headers);
 				break;
 			}
 		}
@@ -134,22 +126,64 @@ public class httpc {
 		private String data;
 		private String inputFilePath;
 
+		private void addToHeaders(int i, String[] args) {
+			headers.add(args[i]);
+			System.out.println(i);
+			while (i + 1 < args.length && args[i + 1].equals("-h")) {
+				headers.add(args[i + 2]);
+				i++;
+			}
+		}
+
+		private void checkForDataOrFileInput(String[] args) {
+			if (Arrays.asList(args).contains("--d")) {
+				int dataPos = Arrays.asList(args).indexOf("--d");
+				data = args[dataPos + 1];
+			} else if (Arrays.asList(args).contains("-f")) {
+				int filePos = Arrays.asList(args).indexOf("-f");
+				inputFilePath = args[filePos + 1];
+			}
+		}
+
 		public PostOptions(String[] args) {
 			URL = args[args.length - 1];
-			System.out.println("URL :: " + URL);
+			//System.out.println("URL :: " + URL);
 			switch (args[0]) {
 			case "-v":
 				isVerbose = true;
+				if (args.length > 1) {
+					if (args[1].equals("-h")) {
+						headers.add(args[2]);
+					}
+					if (args.length > 3) {
+						// Check if there are more headers
+						if (args[3].equals("-h")) {
+							addToHeaders(4, args);
+						}
+					}
+					checkForDataOrFileInput(args);
+				}
 				break;
 			case "-h":
+				headers.add(args[1]);
+				if (args.length > 2) {
+					// Check if there are more headers
+					if (args[2].equals("-h")) {
+						addToHeaders(3, args);
+					}
+					checkForDataOrFileInput(args);
+				}
 				break;
-			case "-d":
+			case "--d":
 				data = args[1];
 				break;
 			case "-f":
 				inputFilePath = args[1];
 				break;
 			}
+//			System.out.println(headers);
+//			System.out.println(data);
+//			System.out.println(inputFilePath);
 		}
 	}
 }
