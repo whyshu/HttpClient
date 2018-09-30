@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.json.JSONObject;
+
 public class HttpClientMethods {
 	private int port = 80;
 
@@ -71,9 +73,10 @@ public class HttpClientMethods {
 			Writer.println("Content-Length: " + data.length());
 			if (!headers.isEmpty())
 				headers.stream().forEach(x -> Writer.println(x));
-
+			System.out.println(data);
+			JSONObject jsonObj = new JSONObject(data);
 			Writer.println();
-			Writer.println(data);
+			Writer.println(jsonObj);
 			Writer.println();
 			Writer.flush();
 
