@@ -1,4 +1,6 @@
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.InetAddress;
@@ -66,15 +68,23 @@ public class HttpClientMethods {
 		try {
 			Map<String, String> responseMap = new HashMap<>();
 			URL url_Object = new URL(url);
-			data+="}";
+			if(data == null){
+				data = "";
+				File file = new File(inputFilePath);   
+				BufferedReader br = new BufferedReader(new FileReader(file)); 
+				String st; 
+				while ((st = br.readLine()) != null) {
+					data+=st;
+				} 
+			}
+			JSONObject jsonObj = new JSONObject(data);
 			Socket socket_ = new Socket(InetAddress.getByName(url_Object.getHost()), port);
 			PrintWriter Writer = new PrintWriter(socket_.getOutputStream());
 			Writer.println("POST /" + url_Object.getFile() + " HTTP/1.0");
 			Writer.println("Host: " + url_Object.getHost());
-			Writer.println("Content-Length: " + data.length());
+			Writer.println("Content-Length: " + jsonObj.toString().length());
 			if (!headers.isEmpty())
 				headers.stream().forEach(x -> Writer.println(x));
-			JSONObject jsonObj = new JSONObject(data);
 			Writer.println();
 			Writer.println(jsonObj);
 			Writer.println();
@@ -96,8 +106,10 @@ public class HttpClientMethods {
 			socket_.close();
 			responseMap.put("content", response.toString());
 			System.out.println(responseMap.get("content"));
-		} catch (Exception e) {
-			System.out.println("Exception in POST Method :: " + e.getMessage());
-		}
+		}catch(
+
+	Exception e)
+	{
+		System.out.println("Exception in POST Method :: " + e.getMessage());
 	}
-}
+}}
