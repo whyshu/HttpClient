@@ -48,7 +48,7 @@ public class HttpClientMain {
 		public Options(String[] args) {
 			switch (args[0]) {
 			case "help":
-				System.out.println("Help");
+				//System.out.println("Help");
 				if (args.length != 1) {
 					helpline = args[1];
 					chooseHelpDetails(args[1]);
@@ -81,7 +81,7 @@ public class HttpClientMain {
 
 		private void addToHeaders(int i, String[] args) {
 			headers.add(args[i]);
-			System.out.println(i);
+			//System.out.println(i);
 			while (i + 1 < args.length && args[i + 1].equals("-h")) {
 				headers.add(args[i + 2]);
 				i++;
@@ -128,7 +128,7 @@ public class HttpClientMain {
 
 		private void addToHeaders(int i, String[] args) {
 			headers.add(args[i]);
-			System.out.println(i);
+			//System.out.println(i);
 			while (i + 1 < args.length && args[i + 1].equals("-h")) {
 				headers.add(args[i + 2]);
 				i++;
