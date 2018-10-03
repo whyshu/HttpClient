@@ -145,4 +145,29 @@ public class HttpClientMethods {
 			System.out.println("Exception in POST Method :: " + e.getMessage());
 		}
 	}
+	
+	public static void File_backup(String filename, String content) {
+		try {
+			File file = new File(filename);
+
+			// if file does not exists, then create it
+			if (!file.exists()) {
+				file.createNewFile();
+				FileWriter fw = new FileWriter(file.getAbsoluteFile());
+				BufferedWriter bw = new BufferedWriter(fw);
+				bw.write(content);
+				bw.newLine();
+				bw.close();
+			} else {
+				FileWriter fw = new FileWriter(file.getAbsoluteFile(), true);
+				BufferedWriter bw = new BufferedWriter(fw);
+				bw.write(content);
+				bw.newLine();
+				bw.close();
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
 }
