@@ -60,12 +60,14 @@ public class HttpClientMain {
 				String[] modifiedArgsGet = new String[args.length - 1];
 				System.arraycopy(args, 1, modifiedArgsGet, 0, modifiedArgsGet.length);
 				getOptions = new GetOptions(modifiedArgsGet);
+				getOptions.headers.add("User-Agent: Concordia-HTTP/1.0");
 				httpClientMethods.getMethod(getOptions.URL, getOptions.isVerbose, getOptions.headers, getOptions.outputFileName);
 				break;
 			case "post":
 				String[] modifiedArgsPost = new String[args.length - 1];
 				System.arraycopy(args, 1, modifiedArgsPost, 0, modifiedArgsPost.length);
 				postOptions = new PostOptions(modifiedArgsPost);
+				postOptions.headers.add("User-Agent: Concordia-HTTP/1.0");
 				httpClientMethods.postMethod(postOptions.URL, postOptions.isVerbose, postOptions.headers,
 						postOptions.data, postOptions.inputFilePath,postOptions.outputFileName);
 				break;
@@ -82,10 +84,9 @@ public class HttpClientMain {
 
 		private void addToHeaders(int i, String[] args) {
 			headers.add(args[i]);
-			// System.out.println(i);
 			while (i + 1 < args.length && args[i + 1].equals("-h")) {
 				headers.add(args[i + 2]);
-				i++;
+				i+=2;
 			}
 		}
 
@@ -138,7 +139,7 @@ public class HttpClientMain {
 			// System.out.println(i);
 			while (i + 1 < args.length && args[i + 1].equals("-h")) {
 				headers.add(args[i + 2]);
-				i++;
+				i+=2;
 			}
 		}
 
