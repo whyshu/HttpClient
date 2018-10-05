@@ -48,7 +48,7 @@ public class HttpClientMain {
 		public Options(String[] args) {
 			switch (args[0]) {
 			case "help":
-				//System.out.println("Help");
+				// System.out.println("Help");
 				if (args.length != 1) {
 					helpline = args[1];
 					chooseHelpDetails(args[1]);
@@ -60,14 +60,14 @@ public class HttpClientMain {
 				String[] modifiedArgsGet = new String[args.length - 1];
 				System.arraycopy(args, 1, modifiedArgsGet, 0, modifiedArgsGet.length);
 				getOptions = new GetOptions(modifiedArgsGet);
-				httpClientMethods.getMethod(getOptions.URL, getOptions.isVerbose, getOptions.headers);
+				httpClientMethods.getMethod(getOptions.URL, getOptions.isVerbose, getOptions.headers, getOptions.outputFileName);
 				break;
 			case "post":
 				String[] modifiedArgsPost = new String[args.length - 1];
 				System.arraycopy(args, 1, modifiedArgsPost, 0, modifiedArgsPost.length);
 				postOptions = new PostOptions(modifiedArgsPost);
-				httpClientMethods.postMethod(postOptions.URL,postOptions.isVerbose, postOptions.headers, postOptions.data,
-						postOptions.inputFilePath);
+				httpClientMethods.postMethod(postOptions.URL, postOptions.isVerbose, postOptions.headers,
+						postOptions.data, postOptions.inputFilePath,postOptions.outputFileName);
 				break;
 
 			}
@@ -78,10 +78,11 @@ public class HttpClientMain {
 		private boolean isVerbose;
 		private ArrayList<String> headers = new ArrayList<>();
 		private String URL;
+		private String outputFileName;
 
 		private void addToHeaders(int i, String[] args) {
 			headers.add(args[i]);
-			//System.out.println(i);
+			// System.out.println(i);
 			while (i + 1 < args.length && args[i + 1].equals("-h")) {
 				headers.add(args[i + 2]);
 				i++;
@@ -89,8 +90,13 @@ public class HttpClientMain {
 		}
 
 		public GetOptions(String[] args) {
-			URL = args[args.length - 1];
-			//System.out.println("URL :: " + URL);
+			if (Arrays.asList(args).contains("-o")) {
+				outputFileName = args[args.length - 1];
+				URL = args[args.length - 3];
+			} else {
+				URL = args[args.length - 1];
+			}
+			// System.out.println("URL :: " + URL);
 			switch (args[0]) {
 			case "-v":
 				isVerbose = true;
@@ -125,10 +131,11 @@ public class HttpClientMain {
 		private ArrayList<String> headers = new ArrayList<>();
 		private String data;
 		private String inputFilePath;
-
+		private String  outputFileName;
+		
 		private void addToHeaders(int i, String[] args) {
 			headers.add(args[i]);
-			//System.out.println(i);
+			// System.out.println(i);
 			while (i + 1 < args.length && args[i + 1].equals("-h")) {
 				headers.add(args[i + 2]);
 				i++;
@@ -146,8 +153,12 @@ public class HttpClientMain {
 		}
 
 		public PostOptions(String[] args) {
-			URL = args[args.length - 1];
-			//System.out.println("URL :: " + URL);
+			if (Arrays.asList(args).contains("-o")) {
+				outputFileName = args[args.length - 1];
+				URL = args[args.length - 3];
+			} else {
+				URL = args[args.length - 1];
+			}
 			switch (args[0]) {
 			case "-v":
 				isVerbose = true;
@@ -181,9 +192,9 @@ public class HttpClientMain {
 				inputFilePath = args[1];
 				break;
 			}
-//			System.out.println(headers);
-//			System.out.println(data);
-//			System.out.println(inputFilePath);
+			// System.out.println(headers);
+			// System.out.println(data);
+			// System.out.println(inputFilePath);
 		}
 	}
 }

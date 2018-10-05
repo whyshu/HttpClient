@@ -13,7 +13,6 @@ import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -27,7 +26,7 @@ public class HttpClientMethods {
 
 	}
 
-	public void getMethod(String url, boolean isVerbose, ArrayList<String> headers) {
+	public void getMethod(String url, boolean isVerbose, ArrayList<String> headers, String outputFileName) {
 		try {
 			HashMap<String, ArrayList<String>> headersMap = new HashMap<>();
 			Map<String, String> responseMap = new HashMap<>();
@@ -81,21 +80,29 @@ public class HttpClientMethods {
 			String returnedUrl = isUrlRedirect(responseMap.get("header"), url);
 			if (returnedUrl.equals(url)) {
 				if (isVerbose) {
-					System.out.println(responseMap.get("header"));
-					System.out.println(responseMap.get("content"));
+					if (outputFileName == null) {
+						System.out.println(responseMap.get("header"));
+						System.out.println(responseMap.get("content"));
+					} else {
+						writeToFile(outputFileName, responseMap.get("header"));
+						writeToFile(outputFileName, responseMap.get("content"));
+					}
 				} else {
-					System.out.println(responseMap.get("content"));
+					if (outputFileName == null)
+						System.out.println(responseMap.get("content"));
+					else
+						writeToFile(outputFileName, responseMap.get("content"));
 				}
 			} else {
-				if(returnedUrl.equals("")){
+				if (returnedUrl.equals("")) {
 					System.out.println(responseMap.get("header"));
 					String[] headerLines = responseMap.get("header").split("\n");
 					List<String> lines = Arrays.asList(headerLines);
-					lines = lines.stream().filter(x->x.contains("Location:")).collect(Collectors.toList());
-					if(lines.size()==1)
-						getMethod(lines.get(0).split("Location:")[1],isVerbose, headers);
-				}else{
-					getMethod(returnedUrl, isVerbose, headers);
+					lines = lines.stream().filter(x -> x.contains("Location:")).collect(Collectors.toList());
+					if (lines.size() == 1)
+						getMethod(lines.get(0).split("Location:")[1], isVerbose, headers, outputFileName);
+				} else {
+					getMethod(returnedUrl, isVerbose, headers, outputFileName);
 				}
 			}
 
@@ -106,12 +113,10 @@ public class HttpClientMethods {
 
 	private String isUrlRedirect(String header, String url) {
 		String[] headerLines = header.split("\n");
-		// System.out.println(headerLines[0]);
 		try {
 			if (headerLines[0].contains("3")) {
-				// System.out.println("URL to be redirected");
 				URLConnection con = new URL(url).openConnection();
-				// System.out.println("orignal url: " + con.getURL());
+				System.out.println("orignal url: " + con.getURL());
 				con.connect();
 				System.out.println("connected url: " + con.getURL());
 				InputStream is = con.getInputStream();
@@ -126,8 +131,8 @@ public class HttpClientMethods {
 		return url;
 	}
 
-	public void postMethod(String url, boolean isVerbose, ArrayList<String> headers, String data,
-			String inputFilePath) {
+	public void postMethod(String url, boolean isVerbose, ArrayList<String> headers, String data, String inputFilePath,
+			String outputFileName) {
 		HashMap<String, ArrayList<String>> headersMap = new HashMap<>();
 		try {
 			Map<String, String> responseMap = new HashMap<>();
@@ -147,7 +152,7 @@ public class HttpClientMethods {
 			Writer.println("POST /" + url_Object.getFile() + " HTTP/1.0");
 			Writer.println("Host: " + url_Object.getHost());
 			Writer.println("Content-Length: " + jsonObj.toString().length());
-			
+
 			if (!headers.isEmpty()) {
 				for (String header : headers) {
 					ArrayList<String> headerValues = new ArrayList<>();
@@ -169,7 +174,7 @@ public class HttpClientMethods {
 				}
 				Writer.println(entry.getKey() + ":" + currentHeaderValue);
 			}
-			
+
 			Writer.println();
 			Writer.println(jsonObj);
 			Writer.println();
@@ -191,18 +196,41 @@ public class HttpClientMethods {
 			Writer.close();
 			socket_.close();
 			responseMap.put("content", response.toString());
-			if (isVerbose) {
-				System.out.println(responseMap.get("header"));
-				System.out.println(responseMap.get("content"));
+			String returnedUrl = isUrlRedirect(responseMap.get("header"), url);
+			if (returnedUrl.equals(url)) {
+				if (isVerbose) {
+					if (outputFileName == null) {
+						System.out.println(responseMap.get("header"));
+						System.out.println(responseMap.get("content"));
+					} else {
+						writeToFile(outputFileName, responseMap.get("header"));
+						writeToFile(outputFileName, responseMap.get("content"));
+					}
+				} else {
+					if (outputFileName == null)
+						System.out.println(responseMap.get("content"));
+					else
+						writeToFile(outputFileName, responseMap.get("content"));
+				}
 			} else {
-				System.out.println(responseMap.get("content"));
+				if (returnedUrl.equals("")) {
+					System.out.println(responseMap.get("header"));
+					String[] headerLines = responseMap.get("header").split("\n");
+					List<String> lines = Arrays.asList(headerLines);
+					lines = lines.stream().filter(x -> x.contains("Location:")).collect(Collectors.toList());
+					if (lines.size() == 1)
+						postMethod(lines.get(0).split("Location:")[1], isVerbose, headers, data, inputFilePath,
+								outputFileName);
+				} else {
+					postMethod(returnedUrl, isVerbose, headers, data, inputFilePath, outputFileName);
+				}
 			}
 		} catch (Exception e) {
 			System.out.println("Exception in POST Method :: " + e.getMessage());
 		}
 	}
 
-	public static void File_backup(String filename, String content) {
+	public static void writeToFile(String filename, String content) {
 		try {
 			File file = new File(filename);
 			// if file does not exists, then create it
