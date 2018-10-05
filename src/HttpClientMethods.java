@@ -116,11 +116,11 @@ public class HttpClientMethods {
 		try {
 			if (headerLines[0].contains("3")) {
 				URLConnection con = new URL(url).openConnection();
-				System.out.println("orignal url: " + con.getURL());
+				//System.out.println("orignal url: " + con.getURL());
 				con.connect();
-				System.out.println("connected url: " + con.getURL());
+				//System.out.println("connected url: " + con.getURL());
 				InputStream is = con.getInputStream();
-				System.out.println("redirected url: " + con.getURL());
+				//System.out.println("redirected url: " + con.getURL());
 				is.close();
 				return con.getURL().toString();
 			}
@@ -219,10 +219,9 @@ public class HttpClientMethods {
 					List<String> lines = Arrays.asList(headerLines);
 					lines = lines.stream().filter(x -> x.contains("Location:")).collect(Collectors.toList());
 					if (lines.size() == 1)
-						postMethod(lines.get(0).split("Location:")[1], isVerbose, headers, data, inputFilePath,
-								outputFileName);
+						getMethod(lines.get(0).split("Location:")[1], isVerbose, headers, outputFileName);
 				} else {
-					postMethod(returnedUrl, isVerbose, headers, data, inputFilePath, outputFileName);
+					getMethod(returnedUrl, isVerbose, headers, outputFileName);
 				}
 			}
 		} catch (Exception e) {
