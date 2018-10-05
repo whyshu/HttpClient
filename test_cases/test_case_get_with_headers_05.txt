@@ -1,0 +1,36 @@
+httpc 
+
+D:\Workspace\HttpClient-master\src>java HttpClientMain get -h Accept:application/json -h Content-Type:application/json "http://httpbin.org/get?course=networking&assignment=1"
+{
+  "args": {
+    "assignment": "1",
+    "course": "networking"
+  },
+  "headers": {
+    "Accept": "application/json",
+    "Connection": "close",
+    "Content-Type": "application/json",
+    "Host": "httpbin.org"
+  },
+  "origin": "142.119.13.54",
+  "url": "http://httpbin.org/get?course=networking&assignment=1"
+}
+
+
+CURL
+D:\Workspace\HttpClient-master\src>curl get -H "accept:application/json" -H "Content-Type:application/json" "http://httpbin.org/get?course=networking&assignment=1"
+{
+  "args": {
+    "assignment": "1",
+    "course": "networking"
+  },
+  "headers": {
+    "Accept": "application/json",
+    "Connection": "close",
+    "Content-Type": "application/json",
+    "Host": "httpbin.org",
+    "User-Agent": "curl/7.55.1"
+  },
+  "origin": "142.119.13.54",
+  "url": "http://httpbin.org/get?course=networking&assignment=1"
+}

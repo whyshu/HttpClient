@@ -1,0 +1,24 @@
+HTTP/1.1 200 OK
+Connection: close
+Server: gunicorn/19.9.0
+Date: Fri, 05 Oct 2018 19:49:38 GMT
+Content-Type: application/json
+Content-Length: 274
+Access-Control-Allow-Origin: *
+Access-Control-Allow-Credentials: true
+Via: 1.1 vegur
+
+
+{
+  "args": {}, 
+  "headers": {
+    "Accept": "text/plain,text/plain", 
+    "Connection": "close", 
+    "Content-Type": "text/plain", 
+    "Host": "httpbin.org", 
+    "User-Agent": "Concordia-HTTP/1.0"
+  }, 
+  "origin": "142.127.18.42", 
+  "url": "http://httpbin.org/get"
+}
+

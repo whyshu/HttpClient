@@ -1,0 +1,74 @@
+D:\Workspace\HttpClient\src>java -cp .;json-20180813.jar HttpClientMain post -v -h Content-Type:application/json -h Accept:text/plain -h Content-Type:text/plain -h Accept:text/plain --d "{"Assignment":1}" http://httpbin.org/post
+
+HTTP/1.1 200 OK
+Connection: close
+Server: gunicorn/19.9.0
+Date: Fri, 05 Oct 2018 20:01:17 GMT
+Content-Type: application/json
+Content-Length: 406
+Access-Control-Allow-Origin: *
+Access-Control-Allow-Credentials: true
+Via: 1.1 vegur
+
+
+{
+  "args": {},
+  "data": "{\"Assignment\":1}",
+  "files": {},
+  "form": {},
+  "headers": {
+    "Accept": "text/plain,text/plain",
+    "Connection": "close",
+    "Content-Length": "16",
+    "Content-Type": "text/plain",
+    "Host": "httpbin.org",
+    "User-Agent": "Concordia-HTTP/1.0"
+  },
+  "json": {
+    "Assignment": 1
+  },
+  "origin": "142.127.18.42",
+  "url": "http://httpbin.org/post"
+}
+
+curl:
+
+D:\Workspace\HttpClient\src>curl -X POST -v -H Content-Type:application/json -H Accept:text/plain -H Content-Type:text/plain -H Accept:text/plain -D "{"Assignment":1}" http://httpbin.org/post
+*   Trying 34.224.230.241...
+* TCP_NODELAY set
+* Connected to httpbin.org (34.224.230.241) port 80 (#0)
+> POST /post HTTP/1.1
+> Host: httpbin.org
+> User-Agent: curl/7.55.1
+> Content-Type:application/json
+> Accept:text/plain
+> Content-Type:text/plain
+> Accept:text/plain
+>
+< HTTP/1.1 200 OK
+< Connection: keep-alive
+< Server: gunicorn/19.9.0
+< Date: Fri, 05 Oct 2018 20:04:40 GMT
+< Content-Type: application/json
+< Content-Length: 359
+< Access-Control-Allow-Origin: *
+< Access-Control-Allow-Credentials: true
+< Via: 1.1 vegur
+<
+{
+  "args": {},
+  "data": "",
+  "files": {},
+  "form": {},
+  "headers": {
+    "Accept": "text/plain,text/plain",
+    "Connection": "close",
+    "Content-Length": "0",
+    "Content-Type": "text/plain",
+    "Host": "httpbin.org",
+    "User-Agent": "curl/7.55.1"
+  },
+  "json": null,
+  "origin": "142.127.18.42",
+  "url": "http://httpbin.org/post"
+}

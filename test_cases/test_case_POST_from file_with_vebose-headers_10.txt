@@ -1,0 +1,32 @@
+D:\Workspace\HttpClient\src>java -cp .;json-20180813.jar HttpClientMain post -v -h Content-Type:application/json -h Accept:text/plain -h Content-Type:text/plain -h Accept:text/plain -h Accept:application/json -h Content-Type:application/json -f test.json http://httpbin.org/post
+HTTP/1.1 200 OK
+Connection: close
+Server: gunicorn/19.9.0
+Date: Fri, 05 Oct 2018 20:38:39 GMT
+Content-Type: application/json
+Content-Length: 498
+Access-Control-Allow-Origin: *
+Access-Control-Allow-Credentials: true
+Via: 1.1 vegur
+
+
+{
+  "args": {},
+  "data": "{\"Assignment\":1,\"Course\":\"Computer Networks\"}",
+  "files": {},
+  "form": {},
+  "headers": {
+    "Accept": "text/plain,text/plain,application/json",
+    "Connection": "close",
+    "Content-Length": "45",
+    "Content-Type": "application/json",
+    "Host": "httpbin.org",
+    "User-Agent": "Concordia-HTTP/1.0"
+  },
+  "json": {
+    "Assignment": 1,
+    "Course": "Computer Networks"
+  },
+  "origin": "142.127.18.42",
+  "url": "http://httpbin.org/post"
+}
