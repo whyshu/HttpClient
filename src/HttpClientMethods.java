@@ -1,6 +1,8 @@
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
@@ -9,8 +11,12 @@ import java.net.Socket;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.json.JSONObject;
 
@@ -23,17 +29,35 @@ public class HttpClientMethods {
 
 	public void getMethod(String url, boolean isVerbose, ArrayList<String> headers) {
 		try {
+			HashMap<String, ArrayList<String>> headersMap = new HashMap<>();
 			Map<String, String> responseMap = new HashMap<>();
 			URL url_Object = new URL(url);
 			Socket socket_ = new Socket(InetAddress.getByName(url_Object.getHost()), port);
 			PrintWriter Writer = new PrintWriter(socket_.getOutputStream());
 			Writer.println("GET /" + url_Object.getFile() + " HTTP/1.0");
 			Writer.println("Host: " + url_Object.getHost());
-
-			if (!headers.isEmpty())
-				headers.stream().forEach(x -> Writer.println(x));
-
-			Writer.println("");
+			if (!headers.isEmpty()) {
+				for (String header : headers) {
+					ArrayList<String> headerValues = new ArrayList<>();
+					if (headersMap.containsKey(header.split(":")[0]))
+						headersMap.get(header.split(":")[0]).add(header.split(":")[1]);
+					else {
+						headerValues.add(header.split(":")[1]);
+						headersMap.put(header.split(":")[0], headerValues);
+					}
+				}
+			}
+			for (Map.Entry<String, ArrayList<String>> entry : headersMap.entrySet()) {
+				String currentHeaderValue = "";
+				for (String value : entry.getValue()) {
+					if (currentHeaderValue == "")
+						currentHeaderValue += value;
+					else
+						currentHeaderValue += "," + value;
+				}
+				Writer.println(entry.getKey() + ":" + currentHeaderValue);
+			}
+			Writer.println();
 			Writer.flush();
 
 			BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(socket_.getInputStream()));
@@ -55,17 +79,26 @@ public class HttpClientMethods {
 
 			responseMap.put("content", response.toString());
 			String returnedUrl = isUrlRedirect(responseMap.get("header"), url);
-			if(returnedUrl.equals(url)){
+			if (returnedUrl.equals(url)) {
 				if (isVerbose) {
 					System.out.println(responseMap.get("header"));
 					System.out.println(responseMap.get("content"));
 				} else {
 					System.out.println(responseMap.get("content"));
 				}
-			}else{
-				getMethod(returnedUrl,isVerbose,headers);
+			} else {
+				if(returnedUrl.equals("")){
+					System.out.println(responseMap.get("header"));
+					String[] headerLines = responseMap.get("header").split("\n");
+					List<String> lines = Arrays.asList(headerLines);
+					lines = lines.stream().filter(x->x.contains("Location:")).collect(Collectors.toList());
+					if(lines.size()==1)
+						getMethod(lines.get(0).split("Location:")[1],isVerbose, headers);
+				}else{
+					getMethod(returnedUrl, isVerbose, headers);
+				}
 			}
-			
+
 		} catch (Exception e) {
 			System.out.println("Exception in get method " + e.getMessage());
 		}
@@ -73,27 +106,29 @@ public class HttpClientMethods {
 
 	private String isUrlRedirect(String header, String url) {
 		String[] headerLines = header.split("\n");
-		//System.out.println(headerLines[0]);
+		// System.out.println(headerLines[0]);
 		try {
 			if (headerLines[0].contains("3")) {
-				//System.out.println("URL to be redirected");
+				// System.out.println("URL to be redirected");
 				URLConnection con = new URL(url).openConnection();
-				//System.out.println("orignal url: " + con.getURL());
+				// System.out.println("orignal url: " + con.getURL());
 				con.connect();
-				//System.out.println("connected url: " + con.getURL());
+				System.out.println("connected url: " + con.getURL());
 				InputStream is = con.getInputStream();
-				//System.out.println("redirected url: " + con.getURL());
+				System.out.println("redirected url: " + con.getURL());
 				is.close();
 				return con.getURL().toString();
 			}
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
+			return "";
 		}
 		return url;
 	}
 
 	public void postMethod(String url, boolean isVerbose, ArrayList<String> headers, String data,
 			String inputFilePath) {
+		HashMap<String, ArrayList<String>> headersMap = new HashMap<>();
 		try {
 			Map<String, String> responseMap = new HashMap<>();
 			URL url_Object = new URL(url);
@@ -112,8 +147,29 @@ public class HttpClientMethods {
 			Writer.println("POST /" + url_Object.getFile() + " HTTP/1.0");
 			Writer.println("Host: " + url_Object.getHost());
 			Writer.println("Content-Length: " + jsonObj.toString().length());
-			if (!headers.isEmpty())
-				headers.stream().forEach(x -> Writer.println(x));
+			
+			if (!headers.isEmpty()) {
+				for (String header : headers) {
+					ArrayList<String> headerValues = new ArrayList<>();
+					if (headersMap.containsKey(header.split(":")[0]))
+						headersMap.get(header.split(":")[0]).add(header.split(":")[1]);
+					else {
+						headerValues.add(header.split(":")[1]);
+						headersMap.put(header.split(":")[0], headerValues);
+					}
+				}
+			}
+			for (Map.Entry<String, ArrayList<String>> entry : headersMap.entrySet()) {
+				String currentHeaderValue = "";
+				for (String value : entry.getValue()) {
+					if (currentHeaderValue == "")
+						currentHeaderValue += value;
+					else
+						currentHeaderValue += "," + value;
+				}
+				Writer.println(entry.getKey() + ":" + currentHeaderValue);
+			}
+			
 			Writer.println();
 			Writer.println(jsonObj);
 			Writer.println();
@@ -145,11 +201,10 @@ public class HttpClientMethods {
 			System.out.println("Exception in POST Method :: " + e.getMessage());
 		}
 	}
-	
+
 	public static void File_backup(String filename, String content) {
 		try {
 			File file = new File(filename);
-
 			// if file does not exists, then create it
 			if (!file.exists()) {
 				file.createNewFile();
@@ -165,8 +220,8 @@ public class HttpClientMethods {
 				bw.newLine();
 				bw.close();
 			}
-		} catch (IOException e) {
-			e.printStackTrace();
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
 		}
 	}
 
