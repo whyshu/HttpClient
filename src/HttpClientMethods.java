@@ -36,26 +36,30 @@ public class HttpClientMethods {
 			Writer.println("GET /" + url_Object.getFile() + " HTTP/1.0");
 			Writer.println("Host: " + url_Object.getHost());
 			if (!headers.isEmpty()) {
-				for (String header : headers) {
-					ArrayList<String> headerValues = new ArrayList<>();
-					if (headersMap.containsKey(header.split(":")[0]))
-						headersMap.get(header.split(":")[0]).add(header.split(":")[1]);
-					else {
-						headerValues.add(header.split(":")[1]);
-						headersMap.put(header.split(":")[0], headerValues);
-					}
-				}
+				headers.stream().forEach(x -> Writer.println(x));
 			}
-			for (Map.Entry<String, ArrayList<String>> entry : headersMap.entrySet()) {
-				String currentHeaderValue = "";
-				for (String value : entry.getValue()) {
-					if (currentHeaderValue == "")
-						currentHeaderValue += value;
-					else
-						currentHeaderValue += "," + value;
-				}
-				Writer.println(entry.getKey() + ":" + currentHeaderValue);
-			}
+			// if (!headers.isEmpty()) {
+			// for (String header : headers) {
+			// ArrayList<String> headerValues = new ArrayList<>();
+			// if (headersMap.containsKey(header.split(":")[0]))
+			// headersMap.get(header.split(":")[0]).add(header.split(":")[1]);
+			// else {
+			// headerValues.add(header.split(":")[1]);
+			// headersMap.put(header.split(":")[0], headerValues);
+			// }
+			// }
+			// }
+			// for (Map.Entry<String, ArrayList<String>> entry :
+			// headersMap.entrySet()) {
+			// String currentHeaderValue = "";
+			// for (String value : entry.getValue()) {
+			// if (currentHeaderValue == "")
+			// currentHeaderValue += value;
+			// else
+			// currentHeaderValue += "," + value;
+			// }
+			// Writer.println(entry.getKey() + ":" + currentHeaderValue);
+			// }
 			Writer.println();
 			Writer.flush();
 
@@ -116,11 +120,11 @@ public class HttpClientMethods {
 		try {
 			if (headerLines[0].contains("3")) {
 				URLConnection con = new URL(url).openConnection();
-				//System.out.println("orignal url: " + con.getURL());
+				// System.out.println("orignal url: " + con.getURL());
 				con.connect();
-				//System.out.println("connected url: " + con.getURL());
+				// System.out.println("connected url: " + con.getURL());
 				InputStream is = con.getInputStream();
-				//System.out.println("redirected url: " + con.getURL());
+				// System.out.println("redirected url: " + con.getURL());
 				is.close();
 				return con.getURL().toString();
 			}
@@ -152,28 +156,31 @@ public class HttpClientMethods {
 			Writer.println("POST /" + url_Object.getFile() + " HTTP/1.0");
 			Writer.println("Host: " + url_Object.getHost());
 			Writer.println("Content-Length: " + jsonObj.toString().length());
-
 			if (!headers.isEmpty()) {
-				for (String header : headers) {
-					ArrayList<String> headerValues = new ArrayList<>();
-					if (headersMap.containsKey(header.split(":")[0]))
-						headersMap.get(header.split(":")[0]).add(header.split(":")[1]);
-					else {
-						headerValues.add(header.split(":")[1]);
-						headersMap.put(header.split(":")[0], headerValues);
-					}
-				}
+				headers.stream().forEach(x -> Writer.println(x));
 			}
-			for (Map.Entry<String, ArrayList<String>> entry : headersMap.entrySet()) {
-				String currentHeaderValue = "";
-				for (String value : entry.getValue()) {
-					if (currentHeaderValue == "")
-						currentHeaderValue += value;
-					else
-						currentHeaderValue += "," + value;
-				}
-				Writer.println(entry.getKey() + ":" + currentHeaderValue);
-			}
+			// if (!headers.isEmpty()) {
+			// for (String header : headers) {
+			// ArrayList<String> headerValues = new ArrayList<>();
+			// if (headersMap.containsKey(header.split(":")[0]))
+			// headersMap.get(header.split(":")[0]).add(header.split(":")[1]);
+			// else {
+			// headerValues.add(header.split(":")[1]);
+			// headersMap.put(header.split(":")[0], headerValues);
+			// }
+			// }
+			// }
+			// for (Map.Entry<String, ArrayList<String>> entry :
+			// headersMap.entrySet()) {
+			// String currentHeaderValue = "";
+			// for (String value : entry.getValue()) {
+			// if (currentHeaderValue == "")
+			// currentHeaderValue += value;
+			// else
+			// currentHeaderValue += "," + value;
+			// }
+			// Writer.println(entry.getKey() + ":" + currentHeaderValue);
+			// }
 
 			Writer.println();
 			Writer.println(jsonObj);
