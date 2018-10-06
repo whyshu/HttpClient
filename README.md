@@ -1,7 +1,22 @@
 # HttpClient
-java -cp .;json-20180813.jar HttpClientMain post -v -h Content-Type:application/json -h Accept:text/plain -h Content-Type:text/plain -h Accept:text/plain -h Accept:application/json -h Content-Type:application/json --d "{"Assignment":1}" http://httpbin.org/post
 
+1.	open command prompt
 
-java -cp .;json-20180813.jar HttpClientMain get -v -h Content-Type:application/json -h Accept:text/plain -h Content-Type:text/plain -h Accept:text/plain http://httpbin.org/get
+2.	cd <Assignment_Directory_Path>/HttpClient
 
-java -cp .;json-20180813.jar HttpClientMain post -v -h Content-Type:application/json -h Accept:text/plain -h Content-Type:text/plain -h Accept:text/plain --d "{"Assignment":1}" http://httpbin.org/post
+3.	cd httpc_executable
+
+4. 	httpc.exe and give the options as required.
+
+# URLs tested:
+
+"http://blogspot.com"
+"http://facebook.org"
+"https://domain1.in"
+http://httpbin.org/post
+"http://httpbin.org/get?course=networking&assignment=1"
+"https://seomoz.org/"
+"http://httpbin.org/get?course=networking&assignment=1"
+"http://httpbin.org/status/303"
+"http://concordia.com"
+"http://concordia.ca"
