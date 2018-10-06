@@ -61,15 +61,22 @@ public class HttpClientMain {
 				System.arraycopy(args, 1, modifiedArgsGet, 0, modifiedArgsGet.length);
 				getOptions = new GetOptions(modifiedArgsGet);
 				getOptions.headers.add("User-Agent: Concordia-HTTP/1.0");
-				httpClientMethods.getMethod(getOptions.URL, getOptions.isVerbose, getOptions.headers, getOptions.outputFileName);
+				if(!getOptions.URL.contains("http://") &&!getOptions.URL.contains("https://")){
+					getOptions.URL = "http://"+getOptions.URL;
+				}
+				httpClientMethods.getMethod(getOptions.URL, getOptions.isVerbose, getOptions.headers,
+						getOptions.outputFileName);
 				break;
 			case "post":
 				String[] modifiedArgsPost = new String[args.length - 1];
 				System.arraycopy(args, 1, modifiedArgsPost, 0, modifiedArgsPost.length);
 				postOptions = new PostOptions(modifiedArgsPost);
 				postOptions.headers.add("User-Agent: Concordia-HTTP/1.0");
+				if(!postOptions.URL.contains("http://")&&!postOptions.URL.contains("https://")){
+					postOptions.URL = "http://"+postOptions.URL;
+				}
 				httpClientMethods.postMethod(postOptions.URL, postOptions.isVerbose, postOptions.headers,
-						postOptions.data, postOptions.inputFilePath,postOptions.outputFileName);
+						postOptions.data, postOptions.inputFilePath, postOptions.outputFileName);
 				break;
 
 			}
@@ -86,7 +93,7 @@ public class HttpClientMain {
 			headers.add(args[i]);
 			while (i + 1 < args.length && args[i + 1].equals("-h")) {
 				headers.add(args[i + 2]);
-				i+=2;
+				i += 2;
 			}
 		}
 
@@ -132,14 +139,14 @@ public class HttpClientMain {
 		private ArrayList<String> headers = new ArrayList<>();
 		private String data;
 		private String inputFilePath;
-		private String  outputFileName;
-		
+		private String outputFileName;
+
 		private void addToHeaders(int i, String[] args) {
 			headers.add(args[i]);
 			// System.out.println(i);
 			while (i + 1 < args.length && args[i + 1].equals("-h")) {
 				headers.add(args[i + 2]);
-				i+=2;
+				i += 2;
 			}
 		}
 
@@ -147,13 +154,19 @@ public class HttpClientMain {
 			if (Arrays.asList(args).contains("--d")) {
 				int dataPos = Arrays.asList(args).indexOf("--d");
 				data = args[dataPos + 1];
-			} else if (Arrays.asList(args).contains("-f")) {
+			}
+			if (Arrays.asList(args).contains("-f")) {
 				int filePos = Arrays.asList(args).indexOf("-f");
 				inputFilePath = args[filePos + 1];
 			}
 		}
 
 		public PostOptions(String[] args) {
+			if (Arrays.asList(args).contains("--d") && Arrays.asList(args).contains("-f")) {
+				System.out.println("Invalid input for POST  method");
+				chooseHelpDetails("post");
+				System.exit(1);
+			}
 			if (Arrays.asList(args).contains("-o")) {
 				outputFileName = args[args.length - 1];
 				URL = args[args.length - 3];

@@ -21,6 +21,7 @@ import org.json.JSONObject;
 
 public class HttpClientMethods {
 	private int port = 80;
+	private int redirectCount = 0;
 
 	public HttpClientMethods() {
 
@@ -28,6 +29,7 @@ public class HttpClientMethods {
 
 	public void getMethod(String url, boolean isVerbose, ArrayList<String> headers, String outputFileName) {
 		try {
+			int redirectCount = 0;
 			HashMap<String, ArrayList<String>> headersMap = new HashMap<>();
 			Map<String, String> responseMap = new HashMap<>();
 			URL url_Object = new URL(url);
@@ -81,7 +83,7 @@ public class HttpClientMethods {
 			socket_.close();
 
 			responseMap.put("content", response.toString());
-			String returnedUrl = isUrlRedirect(responseMap.get("header"), url);
+			String returnedUrl = isUrlRedirect(responseMap.get("header"), url, responseMap.get("content"),isVerbose,outputFileName);
 			if (returnedUrl.equals(url)) {
 				if (isVerbose) {
 					if (outputFileName == null) {
@@ -115,8 +117,27 @@ public class HttpClientMethods {
 		}
 	}
 
-	private String isUrlRedirect(String header, String url) {
+	private String isUrlRedirect(String header, String url, String content, boolean isVerbose, String outputFileName) {
+		if (redirectCount > 5) {
+			System.out.println("Redirected more than 5 times!");
+			if (isVerbose) {
+				if (outputFileName == null) {
+					System.out.println(header);
+					System.out.println(content);
+				} else {
+					writeToFile(outputFileName, header);
+					writeToFile(outputFileName, content);
+				}
+			} else {
+				if (outputFileName == null)
+					System.out.println(content);
+				else
+					writeToFile(outputFileName, content);
+			}
+			System.exit(1);
+		}
 		String[] headerLines = header.split("\n");
+		redirectCount++;
 		try {
 			if (headerLines[0].contains("3")) {
 				URLConnection con = new URL(url).openConnection();
@@ -124,7 +145,7 @@ public class HttpClientMethods {
 				con.connect();
 				// System.out.println("connected url: " + con.getURL());
 				InputStream is = con.getInputStream();
-				// System.out.println("redirected url: " + con.getURL());
+				//System.out.println("redirected url: " + con.getURL());
 				is.close();
 				return con.getURL().toString();
 			}
@@ -203,7 +224,7 @@ public class HttpClientMethods {
 			Writer.close();
 			socket_.close();
 			responseMap.put("content", response.toString());
-			String returnedUrl = isUrlRedirect(responseMap.get("header"), url);
+			String returnedUrl = isUrlRedirect(responseMap.get("header"), url,responseMap.get("content"),isVerbose,outputFileName);
 			if (returnedUrl.equals(url)) {
 				if (isVerbose) {
 					if (outputFileName == null) {
