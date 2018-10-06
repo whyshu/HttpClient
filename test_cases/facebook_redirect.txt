@@ -1,0 +1,30 @@
+Note: Unnecessary use of -X or --request, GET is already inferred.
+* Rebuilt URL to: http://facebook.org/
+*   Trying 31.13.80.8...
+* TCP_NODELAY set
+* Connected to facebook.org (31.13.80.8) port 80 (#0)
+> GET / HTTP/1.1
+> Host: facebook.org
+> User-Agent: curl/7.55.1
+> Accept: */*
+>
+< HTTP/1.1 302 Found
+< Location: https://www.facebook.com/
+< Content-Type: text/html; charset="utf-8"
+< X-FB-Debug: vdhKzELf1PHRCo/zhl4nfm3VxlsQiiu72Ilh/IH/bqEmaUYbDWNTTUBfm1FIlj/IU5Elcd7GF+JQiH7YHO17Cw==
+< Date: Sat, 06 Oct 2018 00:47:31 GMT
+< Connection: keep-alive
+< Content-Length: 0
+<
+* Connection #0 to host facebook.org left intact
+
+F:\eclipse_workspace\HttpClient\src>java -cp .;json-20180813.jar HttpClientMain get -v "http://facebook.org"
+HTTP/1.0 302 Found
+Location: https://www.facebook.com/
+Content-Type: text/html; charset="utf-8"
+X-FB-Debug: OTl4KHArprI4gQK4Tlf6TJzmzqH+y4GAvavjs1MWg7wfY0lHRqWFLk4vXvECA0IEu11YG9ME4dDnqSoNtorOrA==
+Date: Sat, 06 Oct 2018 00:47:52 GMT
+Connection: keep-alive
+Content-Length: 0
+
+
