@@ -1,0 +1,49 @@
+HTTP/1.1 200 OK
+Connection: close
+Server: gunicorn/19.9.0
+Date: Fri, 05 Oct 2018 16:41:34 GMT
+Content-Type: application/json
+Content-Length: 159
+Access-Control-Allow-Origin: *
+Access-Control-Allow-Credentials: true
+Via: 1.1 vegur
+
+
+{
+  "args": {}, 
+  "headers": {
+    "Connection": "close", 
+    "Host": "httpbin.org"
+  }, 
+  "origin": "142.119.65.198", 
+  "url": "http://httpbin.org/get"
+}
+
+HTTP/1.1 200 OK
+Connection: close
+Server: gunicorn/19.9.0
+Date: Fri, 05 Oct 2018 16:42:43 GMT
+Content-Type: application/json
+Content-Length: 291
+Access-Control-Allow-Origin: *
+Access-Control-Allow-Credentials: true
+Via: 1.1 vegur
+
+
+{
+  "args": {}, 
+  "data": "{\"Assignment\":1}", 
+  "files": {}, 
+  "form": {}, 
+  "headers": {
+    "Connection": "close", 
+    "Content-Length": "16", 
+    "Host": "httpbin.org"
+  }, 
+  "json": {
+    "Assignment": 1
+  }, 
+  "origin": "142.119.65.198", 
+  "url": "http://httpbin.org/post"
+}
+

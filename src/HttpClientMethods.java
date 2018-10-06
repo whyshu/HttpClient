@@ -118,7 +118,7 @@ public class HttpClientMethods {
 	}
 
 	private String isUrlRedirect(String header, String url, String content, boolean isVerbose, String outputFileName) {
-		if (redirectCount > 5) {
+		if (redirectCount >= 5) {
 			System.out.println("Redirected more than 5 times!");
 			if (isVerbose) {
 				if (outputFileName == null) {
@@ -138,22 +138,22 @@ public class HttpClientMethods {
 		}
 		String[] headerLines = header.split("\n");
 		redirectCount++;
-		try {
-			if (headerLines[0].contains("3")) {
-				URLConnection con = new URL(url).openConnection();
-				// System.out.println("orignal url: " + con.getURL());
-				con.connect();
-				// System.out.println("connected url: " + con.getURL());
-				InputStream is = con.getInputStream();
-				//System.out.println("redirected url: " + con.getURL());
-				is.close();
-				return con.getURL().toString();
-			}
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-			return "";
-		}
-		return url;
+//		try {
+//			if (headerLines[0].contains("3")) {
+//				URLConnection con = new URL(url).openConnection();
+//				// System.out.println("orignal url: " + con.getURL());
+//				con.connect();
+//				// System.out.println("connected url: " + con.getURL());
+//				InputStream is = con.getInputStream();
+//				//System.out.println("redirected url: " + con.getURL());
+//				is.close();
+//				return con.getURL().toString();
+//			}
+//		} catch (Exception e) {
+//			System.out.println(e.getMessage());
+//			return "";
+	//	}
+		return "";
 	}
 
 	public void postMethod(String url, boolean isVerbose, ArrayList<String> headers, String data, String inputFilePath,
