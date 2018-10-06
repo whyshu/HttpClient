@@ -1,0 +1,77 @@
+java -cp .;json-20180813.jar HttpClientMain get -v "https://domain1.in"
+
+Server returned HTTP response code: 403 for URL: https://domain1.in
+HTTP/1.0 301 Moved Permanently
+Date: Sat, 06 Oct 2018 00:40:47 GMT
+Connection: keep-alive
+Cache-Control: max-age=3600
+Expires: Sat, 06 Oct 2018 01:40:47 GMT
+Location: https://domain1.in/
+Server: cloudflare
+CF-RAY: 46541420731a3f89-YUL
+
+
+Server returned HTTP response code: 403 for URL: https://domain1.in/
+HTTP/1.0 301 Moved Permanently
+Date: Sat, 06 Oct 2018 00:40:48 GMT
+Connection: keep-alive
+Cache-Control: max-age=3600
+Expires: Sat, 06 Oct 2018 01:40:48 GMT
+Location: https://domain1.in//
+Server: cloudflare
+CF-RAY: 4654142481af3fad-YUL
+
+
+Server returned HTTP response code: 403 for URL: https://domain1.in//
+HTTP/1.0 301 Moved Permanently
+Date: Sat, 06 Oct 2018 00:40:48 GMT
+Connection: keep-alive
+Cache-Control: max-age=3600
+Expires: Sat, 06 Oct 2018 01:40:48 GMT
+Location: https://domain1.in///
+Server: cloudflare
+CF-RAY: 46541424e03d3fa1-YUL
+
+
+Server returned HTTP response code: 403 for URL: https://domain1.in///
+HTTP/1.0 301 Moved Permanently
+Date: Sat, 06 Oct 2018 00:40:48 GMT
+Connection: keep-alive
+Cache-Control: max-age=3600
+Expires: Sat, 06 Oct 2018 01:40:48 GMT
+Location: https://domain1.in////
+Server: cloudflare
+CF-RAY: 4654142521c53fad-YUL
+
+
+Server returned HTTP response code: 403 for URL: https://domain1.in////
+HTTP/1.0 301 Moved Permanently
+Date: Sat, 06 Oct 2018 00:40:48 GMT
+Connection: keep-alive
+Cache-Control: max-age=3600
+Expires: Sat, 06 Oct 2018 01:40:48 GMT
+Location: https://domain1.in/////
+Server: cloudflare
+CF-RAY: 4654142580c63fd7-YUL
+
+
+Server returned HTTP response code: 403 for URL: https://domain1.in/////
+HTTP/1.0 301 Moved Permanently
+Date: Sat, 06 Oct 2018 00:40:48 GMT
+Connection: keep-alive
+Cache-Control: max-age=3600
+Expires: Sat, 06 Oct 2018 01:40:48 GMT
+Location: https://domain1.in//////
+Server: cloudflare
+CF-RAY: 46541425c0d03fd7-YUL
+
+
+Redirected more than 5 times!
+HTTP/1.0 301 Moved Permanently
+Date: Sat, 06 Oct 2018 00:40:48 GMT
+Connection: keep-alive
+Cache-Control: max-age=3600
+Expires: Sat, 06 Oct 2018 01:40:48 GMT
+Location: https://domain1.in///////
+Server: cloudflare
+CF-RAY: 46541425f74d3f83-YUL
