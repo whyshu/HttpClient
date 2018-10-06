@@ -1,0 +1,24 @@
+D:\Workspace\HttpClient-master\src>java HttpClientMain get "https://seomoz.org/"
+connected url: https://seomoz.org/
+Server returned HTTP response code: 403 for URL: https://seomoz.org/
+HTTP/1.1 301 Moved Permanently
+Date: Fri, 05 Oct 2018 17:53:53 GMT
+Connection: close
+Cache-Control: max-age=3600
+Expires: Fri, 05 Oct 2018 18:53:53 GMT
+Location: https://moz.com//
+Server: cloudflare
+CF-RAY: 4651c015b4c19f7e-IAD
+
+
+connected url: https://moz.com//
+Server returned HTTP response code: 403 for URL: https://moz.com//
+HTTP/1.1 503 Service Temporarily Unavailable
+Date: Fri, 05 Oct 2018 17:53:55 GMT
+Content-Type: text/html; charset=UTF-8
+Connection: close
+X-Frame-Options: SAMEORIGIN
+Set-Cookie: __cfduid=d4886ca947d93f69652c1eff44cc1422d1538762035; expires=Sat, 05-Oct-19 17:53:55 GMT; path=/; domain=.moz.com; HttpOnly
+Cache-Control: no-cache
+Server: cloudflare
+CF-RAY: 4651c024e07a91ca-EWR

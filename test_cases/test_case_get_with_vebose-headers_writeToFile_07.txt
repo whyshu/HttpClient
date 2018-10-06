@@ -1,0 +1,63 @@
+java -cp .;json-20180813.jar HttpClientMain get -v -h Content-Type:application/json -h Accept:text/plain -h Content-Type:text/plain -h Accept:text/plain http://httpbin.org/get -o file1.txt
+
+HTTP/1.1 200 OK
+Connection: close
+Server: gunicorn/19.9.0
+Date: Fri, 05 Oct 2018 19:49:38 GMT
+Content-Type: application/json
+Content-Length: 274
+Access-Control-Allow-Origin: *
+Access-Control-Allow-Credentials: true
+Via: 1.1 vegur
+
+
+{
+  "args": {}, 
+  "headers": {
+    "Accept": "text/plain,text/plain", 
+    "Connection": "close", 
+    "Content-Type": "text/plain", 
+    "Host": "httpbin.org", 
+    "User-Agent": "Concordia-HTTP/1.0"
+  }, 
+  "origin": "142.127.18.42", 
+  "url": "http://httpbin.org/get"
+}
+
+curl:
+
+D:\Workspace\HttpClient\src>curl -X GET -v -H Content-Type:application/json -H Accept:text/plain -H Content-Type:text/plain -H Accept:text/plain http://httpbin.org/get
+Note: Unnecessary use of -X or --request, GET is already inferred.
+*   Trying 52.202.60.111...
+* TCP_NODELAY set
+* Connected to httpbin.org (52.202.60.111) port 80 (#0)
+> GET /get HTTP/1.1
+> Host: httpbin.org
+> User-Agent: curl/7.55.1
+> Content-Type:application/json
+> Accept:text/plain
+> Content-Type:text/plain
+> Accept:text/plain
+>
+< HTTP/1.1 200 OK
+< Connection: keep-alive
+< Server: gunicorn/19.9.0
+< Date: Fri, 05 Oct 2018 19:51:08 GMT
+< Content-Type: application/json
+< Content-Length: 267
+< Access-Control-Allow-Origin: *
+< Access-Control-Allow-Credentials: true
+< Via: 1.1 vegur
+<
+{
+  "args": {},
+  "headers": {
+    "Accept": "text/plain,text/plain",
+    "Connection": "close",
+    "Content-Type": "text/plain",
+    "Host": "httpbin.org",
+    "User-Agent": "curl/7.55.1"
+  },
+  "origin": "142.127.18.42",
+  "url": "http://httpbin.org/get"
+}

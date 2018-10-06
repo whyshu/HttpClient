@@ -1,0 +1,61 @@
+D:\Workspace\HttpClient-master\src>java HttpClientMain get -v -h Accept:application/json -h Content-Type:application/json "http://httpbin.org/get?course=networking&assignment=1"
+HTTP/1.1 200 OK
+Connection: close
+Server: gunicorn/19.9.0
+Date: Fri, 05 Oct 2018 17:48:06 GMT
+Content-Type: application/json
+Content-Length: 319
+Access-Control-Allow-Origin: *
+Access-Control-Allow-Credentials: true
+Via: 1.1 vegur
+
+
+{
+  "args": {
+    "assignment": "1",
+    "course": "networking"
+  },
+  "headers": {
+    "Accept": "application/json",
+    "Connection": "close",
+    "Content-Type": "application/json",
+    "Host": "httpbin.org"
+  },
+  "origin": "142.119.13.54",
+  "url": "http://httpbin.org/get?course=networking&assignment=1"
+}
+
+CURL
+
+* Connected to httpbin.org (52.7.126.198) port 80 (#1)
+> GET /get?course=networking&assignment=1 HTTP/1.1
+> Host: httpbin.org
+> User-Agent: curl/7.55.1
+> accept:application/json
+> Content-Type:application/json
+>
+< HTTP/1.1 200 OK
+< Connection: keep-alive
+< Server: gunicorn/19.9.0
+< Date: Fri, 05 Oct 2018 17:49:33 GMT
+< Content-Type: application/json
+< Content-Length: 353
+< Access-Control-Allow-Origin: *
+< Access-Control-Allow-Credentials: true
+< Via: 1.1 vegur
+<
+{
+  "args": {
+    "assignment": "1",
+    "course": "networking"
+  },
+  "headers": {
+    "Accept": "application/json",
+    "Connection": "close",
+    "Content-Type": "application/json",
+    "Host": "httpbin.org",
+    "User-Agent": "curl/7.55.1"
+  },
+  "origin": "142.119.13.54",
+  "url": "http://httpbin.org/get?course=networking&assignment=1"
+}

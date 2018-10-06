@@ -1,0 +1,76 @@
+D:\Workspace\HttpClient\src>java -cp .;json-20180813.jar HttpClientMain post -v -h Content-Type:application/json -h Accept:text/plain -h Content-Type:text/plain -h Accept:text/plain -h Accept:application/json -h Content-Type:application/json --d "{"Assignment":1}" http://httpbin.org/post
+HTTP/1.1 200 OK
+Connection: close
+Server: gunicorn/19.9.0
+Date: Fri, 05 Oct 2018 20:13:43 GMT
+Content-Type: application/json
+Content-Length: 429
+Access-Control-Allow-Origin: *
+Access-Control-Allow-Credentials: true
+Via: 1.1 vegur
+
+
+{
+  "args": {},
+  "data": "{\"Assignment\":1}",
+  "files": {},
+  "form": {},
+  "headers": {
+    "Accept": "text/plain,text/plain,application/json",
+    "Connection": "close",
+    "Content-Length": "16",
+    "Content-Type": "application/json",
+    "Host": "httpbin.org",
+    "User-Agent": "Concordia-HTTP/1.0"
+  },
+  "json": {
+    "Assignment": 1
+  },
+  "origin": "142.127.18.42",
+  "url": "http://httpbin.org/post"
+}
+
+curl : 
+
+
+D:\Workspace\HttpClient\src>curl -X POST -v -H Content-Type:application/json -H Accept:text/plain -H Content-Type:text/plain -H Accept:text/plain -H Accept:application/json -H Content-Type:application/json -D "{"Assignment":1}" http://httpbin.org/post
+*   Trying 34.224.230.241...
+* TCP_NODELAY set
+* Connected to httpbin.org (34.224.230.241) port 80 (#0)
+> POST /post HTTP/1.1
+> Host: httpbin.org
+> User-Agent: curl/7.55.1
+> Content-Type:application/json
+> Accept:text/plain
+> Content-Type:text/plain
+> Accept:text/plain
+> Accept:application/json
+> Content-Type:application/json
+>
+< HTTP/1.1 200 OK
+< Connection: keep-alive
+< Server: gunicorn/19.9.0
+< Date: Fri, 05 Oct 2018 20:15:16 GMT
+< Content-Type: application/json
+< Content-Length: 382
+< Access-Control-Allow-Origin: *
+< Access-Control-Allow-Credentials: true
+< Via: 1.1 vegur
+<
+{
+  "args": {},
+  "data": "",
+  "files": {},
+  "form": {},
+  "headers": {
+    "Accept": "text/plain,text/plain,application/json",
+    "Connection": "close",
+    "Content-Length": "0",
+    "Content-Type": "application/json",
+    "Host": "httpbin.org",
+    "User-Agent": "curl/7.55.1"
+  },
+  "json": null,
+  "origin": "142.127.18.42",
+  "url": "http://httpbin.org/post"
+}
